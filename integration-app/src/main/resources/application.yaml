@@ -1,0 +1,50 @@
+server:
+  port:
+
+app:
+  integration:
+    base-url: http://localhost:8082
+    okved-url: http://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/okved2
+    path-entity: /api/v1/entity
+    path-file: /api/v1/file
+  client:
+    okHttp: false
+    rest: false
+    webClient: false
+    feignClient: true
+  cache:
+    cacheType: redis
+    cache-names:
+      - databaseEntities
+      - databaseEntityByName
+    cashes:
+      databaseEntities:
+        expiry: 10m
+      databaseEntityByName:
+        expiry: 10m
+  redis:
+    enable: true
+
+spring:
+  application:
+    name: integration-app
+  test:
+    enabled: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432}/${DATABASE_NAME:integration}
+    username: ${DATABASE_USERNAME:user}
+    driver-class-name: org.postgresql.Driver
+    password: ${DATABASE_PASSWORD:user}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: true
+
